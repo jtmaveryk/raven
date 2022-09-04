@@ -2,7 +2,7 @@
 
 ### Automatic (cloud) Installation
 
-To install **raven** into your game, create a script in `ServerScriptService` and paste the following content in the top of the script:
+To install **raven** into your game, create a script in `ServerScriptService` and paste the following contents in the top of the script:
 
 ```lua
 local raven = require(10811628747)
@@ -11,7 +11,12 @@ local client = Raven:Client("sentry project dsn")
 
 ### Manual (local) Installation
 
-Alternatively, you can just copy the contents of [Raven.modulescript.lua](https://github.com/jtmaveryk/raven/blob/main/Raven.modulescript.lua) in this repository and paste it into a ModuleScript.
+Alternatively, you can copy the contents of [MainModule.lua](https://github.com/jtmaveryk/raven/blob/1.2/MainModule.lua) from this repository and paste it into a ModuleScript in the location of your choice. This is only suggested for experienced individuals interested in reconfiguring or editing the module.
+
+```lua
+local raven = require(game.ReplicatedStorage.Raven)
+local client = Raven:Client("sentry project dsn")
+```
 
 # Usage
 
