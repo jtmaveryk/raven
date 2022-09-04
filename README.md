@@ -91,14 +91,14 @@ In order to initialize/setup the client to run and receive requests from the cli
 client:SetupClient(Instance.new("RemoteEvent", game.ReplicatedStorage))
 ```
 
-Stores every client-sided **ScriptContext** error:
+Stores every client-sided **ScriptContext** error: (script in StarterPlayerScripts)
 ```lua
 game:GetService("ScriptContext").Error:Connect(function(message, trace, script)
 	game.ReplicatedStorage.RemoteEvent:FireServer(message, debug.traceback())
 end)
 ```
 
-Sends a client test error:
+Sends a client test error: (script in StarterPlayerScripts)
 ```lua
 local success, err = pcall(function() error("test client error") end)
 if (not success) then
