@@ -41,20 +41,20 @@ local client = Raven:Client("sentry project dsn")
 [remoteEvent] a remoteEvent being configured for client error logging
 
 
-# Usage
+# Examples
 
-This module is designed to be only used on the server to prevent players spamming spoofed requests to your Sentry project, potentially risking violation of Sentry's terms or flooding your request/error limit.
+This module is designed to be only used on the server to prevent players spamming spoofed requests to your Sentry project, potentially risking violation of Sentry's terms or flooding your request/error limit. However, client to server error monitoring is built-in, allowing the logging/monitoring of client errors with certain precautions and limitations.
 
 ### Server Usage
 
-***stores every server-sided ScriptContext error***
+Sends every server-sided **ScriptContext** error:
 ```lua
 game:GetService("ScriptContext").Error:Connect(function(message, trace, script)
 	client:SendException("ServerError", message, debug.traceback())
 end)
 ```
 
-***stores every server-sided LogService error***
+Sends every server-sided **LogService** error:
 ```lua
 game:GetService("LogService").MessageOut:Connect(function(message, messageType)
 	if (messageType == Enum.MessageType.MessageError) then
@@ -63,45 +63,45 @@ game:GetService("LogService").MessageOut:Connect(function(message, messageType)
 end)
 ```
 
-
-
-Here are two examples of sending events to your Sentry project:
-
+Sends a server test error:
 ```lua
 local success, err = pcall(function() error("test server error") end)
 if (not success) then
-    client:SendException(raven.ExceptionType.Server, err, debug.traceback())
+	client:SendException(raven.ExceptionType.Server, err, debug.traceback())
 end
 ```
 
+Sends a custom message error:
 ```lua
-client:SendMessage("Fatal error", raven.EventLevel.Fatal)
-client:SendMessage("Basic error", raven.EventLevel.Error)
-client:SendMessage("Warning message", raven.EventLevel.Warning)
-client:SendMessage("Info message", raven.EventLevel.Info)
-client:SendMessage("Debug message", raven.EventLevel.Debug)
+client:SendMessage("Fatal error", "fatal")
+client:SendMessage("Basic error", "error")
+client:SendMessage("Warning message", "warning")
+client:SendMessage("Info message", "info")
+client:SendMessage("Debug message", "debug")
 ```
 
-`SendMessage` is for basic errors, messages, or information, whereas `SendException` is for more complicated errors optionally paired with tracebacks from debug.traceback().
+`client:SendMessage` is for basic errors, messages, or information, whereas `client:SendException` is for more complicated errors optionally paired with tracebacks from `debug.traceback()`.
 
-Since this module is supposed to be used only on the server, there is functionality for client > server error reporting built-in. Here’s how to use it, first on the server:
-
-```lua
-client:ConnectRemoteEvent(Instance.new("RemoteEvent", game.ReplicatedStorage))
-```
-
-Now, on the client:
-
-```lua
-local success, err = pcall(function() error("test client error") end)
-if (not success) then
-    game.ReplicatedStorage.RemoteEvent:FireServer(err, debug.traceback())
-end
-```
-
-The arguments sent are the same as SendException, excluding a few options.
-Make sure the RemoteEvent you pass isn’t used for any other purposes!
+### Client Usage
 
 Each ROBLOX client can report a (configurable) maximum of 5 events per server, however if Raven detects spoofed data being sent, it disables their ability to report errors in that server entirely.
 
-Raven also tries to anonymize data received from ROBLOX clients before sending it to Sentry.
+In order to initialize/setup the client to run and receive requests from the client, you must first create a RemoteEvent or generate one on startup (like below) and initalize it in a server-sided script using the `client:SetupClient` function. The RemoteEvent must be unique to this certain use, not used or fired from any other scripts.
+```lua
+client:SetupClient(Instance.new("RemoteEvent", game.ReplicatedStorage))
+```
+
+Stores every client-sided **ScriptContext** error:
+```lua
+game:GetService("ScriptContext").Error:Connect(function(message, trace, script)
+	game.ReplicatedStorage.RemoteEvent:FireServer(message, debug.traceback())
+end)
+```
+
+Sends a client test error:
+```lua
+local success, err = pcall(function() error("test client error") end)
+if (not success) then
+	game.ReplicatedStorage.RemoteEvent:FireServer(err, debug.traceback())
+end
+```
