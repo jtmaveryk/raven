@@ -38,7 +38,7 @@ local client = Raven:Client("sentry project dsn")
 > **[config]** a table of attributes applied to this event before being sent to Sentry *(logger, level, culprit, release, tags, environment, extra, message)*
 
 `raven:SetupClient(remoteEvent)`: setup client error logging (refer to docs)
-[remoteEvent] a remoteEvent being configured for client error logging
+> **[remoteEvent]** a remoteEvent being configured for client error logging
 
 
 # Examples
