@@ -1,4 +1,4 @@
-Credits towards @nomer888 for creating the original module and source for this SDK, you can visit their [gitlab](https://gitlab.com/nomer/rbxlua-raven) or [roblox devforum post](https://devforum.roblox.com/t/error-tracking-with-sentry-on-roblox/49751).
+Credits towards [nomer888](https://devforum.roblox.com/u/nomer888) for creating the original module and source for this SDK, you can visit their [gitlab](https://gitlab.com/nomer/rbxlua-raven) or [roblox devforum post](https://devforum.roblox.com/t/error-tracking-with-sentry-on-roblox/49751).
 
 # Installation
 
