@@ -1,18 +1,15 @@
 # Installation
 
-### Command Bar Script
+### Automatic (cloud) Installation
 
-To install this into your game, make sure HttpService is enabled in your game and paste this into the command bar:
+To install **raven** into your game, create a script in `ServerScriptService` and paste the following content in the top of the script:
 
 ```lua
-local m = Instance.new("ModuleScript",game.ReplicatedStorage)
-m.Name = "Raven"
-m.Source = game.HttpService:GetAsync("https://raw.githubusercontent.com/jtmaveryk/raven/main/Raven.modulescript.lua")
+local raven = require(10811628747)
+local client = Raven:Client("sentry project dsn")
 ```
 
-This will download the module from this repository and place it in ReplicatedStorage as a ModuleScript with the name "Raven".
-
-### Manual Installation
+### Manual (local) Installation
 
 Alternatively, you can just copy the contents of [Raven.modulescript.lua](https://github.com/jtmaveryk/raven/blob/main/Raven.modulescript.lua) in this repository and paste it into a ModuleScript.
 
