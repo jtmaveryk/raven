@@ -22,20 +22,20 @@ local client = Raven:Client("sentry project dsn")
 
 # Documentation
 
-`raven:Client(dsn, config)`: creates a new Raven client used to send events
-\n[dsn] the "DSN" located in your Sentry project "Client Keys" setting
-\n[config] a table of attributes applied to all events before being sent to Sentry *(logger, level, culprit, release, tags, environment, extra, message)*
+`raven:Client(dsn, config)`: creates a new Raven client used to send events <br>
+> **[dsn]** the "DSN" located in your Sentry project "Client Keys" setting <br>
+> **[config]** a table of attributes applied to all events before being sent to Sentry *(logger, level, culprit, release, tags, environment, extra, message)*
 
 `raven:SendMessage(message, level, config)`: send plain message event to Sentry
-[message] the message sent
-[level] a string describing the severity level of the event *(fatal, error, warning, info, debug)*
-[config] a table of attributes applied to this event before being sent to Sentry *(logger, level, culprit, release, tags, environment, extra, message)*
+> **[message]** the message sent <br>
+> **[level]** a string describing the severity level of the event *(fatal, error, warning, info, debug)* <br>
+> **[config]** a table of attributes applied to this event before being sent to Sentry *(logger, level, culprit, release, tags, environment, extra, message)*
 
 `raven:SendException(eType, errorMessage, traceback, config)`: send exception event to Sentry
-[eType] a string describing the type of exception *(ServerError/ClientError)*
-[errorMessage] a string describing the error, typically the second argument returned from pcall or an error message from LogService
-[traceback] a string returned by `debug.traceback()` OR a premade stacktrace, used to add stacktrace information to the event
-[config] a table of attributes applied to this event before being sent to Sentry *(logger, level, culprit, release, tags, environment, extra, message)*
+> **[eType]** a string describing the type of exception *(ServerError/ClientError)* <br>
+> **[errorMessage]** a string describing the error, typically the second argument returned from pcall or an error message from LogService <br>
+> **[traceback]** a string returned by `debug.traceback()` OR a premade stacktrace, used to add stacktrace information to the event <br>
+> **[config]** a table of attributes applied to this event before being sent to Sentry *(logger, level, culprit, release, tags, environment, extra, message)*
 
 `raven:SetupClient(remoteEvent)`: setup client error logging (refer to docs)
 [remoteEvent] a remoteEvent being configured for client error logging
