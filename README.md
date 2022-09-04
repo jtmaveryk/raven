@@ -23,7 +23,7 @@ local client = Raven:Client("sentry project dsn")
 # Documentation
 
 `raven:Client(dsn, config)`: creates a new Raven client used to send events
-[dsn] the "DSN" located in your Sentry project "Client Keys" setting
+(dsn) the "DSN" located in your Sentry project "Client Keys" setting
 [config] a table of attributes applied to all events before being sent to Sentry *(logger, level, culprit, release, tags, environment, extra, message)*
 
 `raven:SendMessage(message, level, config)`: send plain message event to Sentry
