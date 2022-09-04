@@ -20,14 +20,50 @@ local raven = require(game.ReplicatedStorage.Raven)
 local client = Raven:Client("sentry project dsn")
 ```
 
+# Documentation
+
+`raven:Client(dsn, config)`: creates a new Raven client used to send events
+[dsn] the "DSN" located in your Sentry project "Client Keys" setting
+[config] a table of attributes applied to all events before being sent to Sentry *(logger, level, culprit, release, tags, environment, extra, message)*
+
+`raven:SendMessage(message, level, config)`: send plain message event to Sentry
+[message] the message sent
+[level] a string describing the severity level of the event *(fatal, error, warning, info, debug)*
+[config] a table of attributes applied to this event before being sent to Sentry *(logger, level, culprit, release, tags, environment, extra, message)*
+
+`raven:SendException(eType, errorMessage, traceback, config)`: send exception event to Sentry
+[eType] a string describing the type of exception *(ServerError/ClientError)*
+[errorMessage] a string describing the error, typically the second argument returned from pcall or an error message from LogService
+[traceback] a string returned by `debug.traceback()` OR a premade stacktrace, used to add stacktrace information to the event
+[config] a table of attributes applied to this event before being sent to Sentry *(logger, level, culprit, release, tags, environment, extra, message)*
+
+`raven:SetupClient(remoteEvent)`: setup client error logging (refer to docs)
+[remoteEvent] a remoteEvent being configured for client error logging
+
+
 # Usage
 
-This module is meant to be used only on the server to prevent players from spamming requests to your Sentry project and potentially risking violation of Sentry's terms.
+This module is designed to be only used on the server to prevent players spamming spoofed requests to your Sentry project, potentially risking violation of Sentry's terms or flooding your request/error limit.
 
+### Server Usage
+
+***stores every server-sided ScriptContext error***
 ```lua
-local Raven = require(game.ReplicatedStorage.Raven)
-local client = Raven:Client("<your DSN here>")
+game:GetService("ScriptContext").Error:Connect(function(message, trace, script)
+	client:SendException("ServerError", message, debug.traceback())
+end)
 ```
+
+***stores every server-sided LogService error***
+```lua
+game:GetService("LogService").MessageOut:Connect(function(message, messageType)
+	if (messageType == Enum.MessageType.MessageError) then
+		client:SendException("ServerError", message)
+	end
+end)
+```
+
+
 
 Here are two examples of sending events to your Sentry project:
 
