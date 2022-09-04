@@ -73,11 +73,11 @@ end
 
 Sends a custom message error:
 ```lua
-client:SendMessage("Fatal error", "fatal")
-client:SendMessage("Basic error", "error")
-client:SendMessage("Warning message", "warning")
-client:SendMessage("Info message", "info")
-client:SendMessage("Debug message", "debug")
+client:SendMessage("fatal error", "fatal")
+client:SendMessage("basic error", "error")
+client:SendMessage("warning message", "warning")
+client:SendMessage("info message", "info")
+client:SendMessage("debug message", "debug")
 ```
 
 `client:SendMessage` is for basic errors, messages, or information, whereas `client:SendException` is for more complicated errors optionally paired with tracebacks from `debug.traceback()`.
